@@ -15,6 +15,8 @@ actions and an independent **Safeguarding Governor** that gates them. The govern
 dispatches hardware itself; `:high`/`:safety-critical` actions (such as
 operating near elders, care recipients or in homes) require human sign-off.
 
+A live sample of the operator console (robotics safety console, shared template) is rendered in [docs/samples/operator-console.html](docs/samples/operator-console.html) — pure-data HTML output of `kotoba.robotics.ui`.
+
 ## Core Contract
 
 ```text
