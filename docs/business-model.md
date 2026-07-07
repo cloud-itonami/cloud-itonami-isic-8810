@@ -2,7 +2,7 @@
 
 ## Classification
 
-- Repository: `cloud-itonami-8810`
+- Repository: `cloud-itonami-isic-8810`
 - ISIC Rev.5: `8810`
 - Activity: social work activities without accommodation for older persons and
   persons with disabilities
@@ -39,6 +39,13 @@
 - safeguarding signals escalate
 - eligibility/discharge decisions require human review
 - caregiver workload and visit records are auditable
+- a fabricated jurisdiction citation, incomplete evidence, an overloaded
+  caregiver's own workload, or an unresolved safeguarding signal -- each
+  forces a hold, not an override
+- check-in dispatch and case closure are logged and escalated, and neither
+  can be finalized twice for the same case: a double-dispatch or double-
+  closure attempt is held off this actor's own case facts alone, with no
+  upstream comparison needed
 
 ## Safeguarding Governor: decision rule
 
@@ -91,16 +98,10 @@ violation, not just a missed step.
 
 ## Required Technologies
 
-`blueprint.edn` for this repo does not yet populate
-`:itonami.blueprint/required-technologies` (sibling blueprints such as
-`cloud-itonami-A0162` declare theirs explicitly as
-`[:robotics :identity :forms :dmn :bpmn :audit-ledger :telemetry]`). Until
-this repo's `blueprint.edn` is updated to match, the technology needs below
-are derived from what *is* fixed in `blueprint.edn`
-(`:itonami.blueprint/robotics true`, `:itonami.blueprint/governor
-:safeguarding-governor`) and from the Core Contract / Offer / Trust Controls
-this business already commits to in this file and the README — each item is
-tied to a concrete artifact of this business, not a generic catalog entry:
+`blueprint.edn` declares `:itonami.blueprint/required-technologies
+[:robotics :identity :forms :dmn :bpmn :audit-ledger :optimization]` and
+`:itonami.blueprint/optional-technologies [:telemetry]`. Each item is tied to
+a concrete artifact of this business, not a generic catalog entry:
 
 - **robotics** — drives the check-in/reminder/assistive-support robot itself
   (README "Robotics premise"): the physical-domain worker for aging-in-place
@@ -123,6 +124,12 @@ tied to a concrete artifact of this business, not a generic catalog entry:
 - **audit-ledger** — backs the support ledger and caregiver queue (README
   Core Contract) and makes caregiver workload and visit records auditable
   (Trust Controls), feeding the outcome and workload reporting revenue line.
-- **telemetry** — carries the check-in signals (from the robot or a
-  caregiver's visit) that trigger the safeguarding escalation path before
-  the governor ever sees them.
+- **optimization** — balances caregiver/service matching against each
+  caregiver's own recorded maximum caseload (Trust Controls: "caregiver
+  workload and visit records are auditable"), the same ceiling the
+  Safeguarding Governor independently re-checks before any check-in
+  dispatch.
+
+**Optional**: **telemetry** — carries the check-in signals (from the robot
+or a caregiver's visit) that trigger the safeguarding escalation path before
+the governor ever sees them, where a site has sensor/wearable integration.

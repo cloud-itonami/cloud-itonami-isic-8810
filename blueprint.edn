@@ -1,4 +1,4 @@
-{:itonami.blueprint/id "cloud-itonami-8810"
+{:itonami.blueprint/id "cloud-itonami-isic-8810"
  :itonami.blueprint/name "Community Care Coordination"
  :itonami.blueprint/isic-rev5 "8810"
  :itonami.blueprint/domain :social-care/community-support
@@ -6,4 +6,7 @@
  :itonami.blueprint/social-impact [:aging-in-place :disability-support :caregiver-relief]
  :itonami.blueprint/governor :safeguarding-governor
  :itonami.blueprint/robotics true
- :itonami.blueprint/status :public-oss}
+ :itonami.blueprint/required-technologies [:robotics :identity :forms :dmn :bpmn :audit-ledger :optimization]
+ :itonami.blueprint/optional-technologies [:telemetry]
+ :itonami.blueprint/status :public-oss
+ :itonami.blueprint/maturity :implemented}
