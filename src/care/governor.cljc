@@ -172,7 +172,17 @@
   [{:keys [op subject]} st]
   (when (= op :actuation/dispatch-checkin)
     (let [c (store/case-of st subject)]
-      (when (registry/caregiver-workload-exceeds-maximum? c)
+      (cond
+        ;; Either figure missing or non-numeric: the limit cannot be
+        ;; evaluated, so it is not "within limits". This used to fall
+        ;; through as "not over" and proceed.
+        ;; Only when the entity EXISTS: a missing entity is a different
+        ;; violation that another gate owns, and firing here would mask it.
+        (and c (not (registry/caregiver-workload-exceeds-maximum-checkable? c)))
+        [{:rule :caregiver-workload-exceeds-maximum
+          :detail "上限判定に必要な値が記録されていない -- 限度内と断定できないため進めない"}]
+
+        (registry/caregiver-workload-exceeds-maximum? c)
         [{:rule :caregiver-workload-exceeds-maximum
           :detail (str subject " の担当介護者の現在ケース数(" (:caregiver-current-caseload c)
                       ")が上限(" (:caregiver-max-caseload c) ")を超過")}]))))
