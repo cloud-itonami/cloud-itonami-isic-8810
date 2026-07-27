@@ -57,6 +57,17 @@
   (and (number? caregiver-current-caseload) (number? caregiver-max-caseload)
        (> caregiver-current-caseload caregiver-max-caseload)))
 
+(defn caregiver-workload-exceeds-maximum-checkable?
+  "Are both sides of `caregiver-workload-exceeds-maximum?` actually recorded?
+
+  That predicate answers only `over` / `not over`, and its
+  `(and (number? ...) (number? ...) ...)` guard made every un-recorded
+  case fall through as `not over` -- an entity missing either figure
+  passed the limit check silently. Callers must ask this first:
+  un-checkable is not within limits."
+  [{:keys [caregiver-current-caseload caregiver-max-caseload]}]
+  (boolean (and (number? caregiver-current-caseload) (number? caregiver-max-caseload))))
+
 (defn register-checkin-dispatch
   "Validate + construct the CHECK-IN-DISPATCH registration DRAFT --
   the care-coordination operator's own act of dispatching a real
