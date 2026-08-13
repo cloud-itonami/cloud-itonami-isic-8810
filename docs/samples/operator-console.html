@@ -2547,7 +2547,7 @@ img,svg { max-width: 100%; height: auto; }</style></head><body>
   </section>
   <section class="card">
     <h2>Rollout phase gate</h2>
-    <p class="muted">The same actor, driven by operators at lower rollout phases. <code>care.phase/gate</code> can only add caution: it never turns a governor hold into a commit. The gate's own reason code is written into the audit fact.</p>
+    <p class="muted">The same actor, driven by operators at lower rollout phases. <code>care.phase/gate</code> can only add caution: it never turns a governor hold into a commit. The first table is the phase declaration read straight out of <code>care.phase/phases</code>; the second is what these operators actually got, with each gate reason read back out of the audit fact that run wrote.</p>
     <table>
       <thead><tr><th>Phase</th><th>Label</th><th>Ops allowed to write</th><th>Ops allowed to auto-commit</th></tr></thead>
       <tbody>
@@ -2563,7 +2563,7 @@ img,svg { max-width: 100%; height: auto; }</style></head><body>
       <tbody>
         <tr><td>op-phase0</td><td><code>careplan/verify</code></td><td><code>case-1</code></td><td><code>phase-disabled</code></td><td><span class="critical">HOLD — phase not yet enabled</span></td></tr>
         <tr><td>op-phase1</td><td><code>safeguarding/screen</code></td><td><code>case-1</code></td><td><code>phase-disabled</code></td><td><span class="critical">HOLD — phase not yet enabled</span></td></tr>
-        <tr><td>op-phase2</td><td><code>safeguarding/screen</code></td><td><code>case-1</code></td><td><code>:phase-approval</code></td><td><span class="warn">escalate — awaiting a human, never approved in this run</span></td></tr>
+        <tr><td>op-phase2</td><td><code>safeguarding/screen</code></td><td><code>case-1</code></td><td><code>phase-approval</code></td><td><span class="warn">escalate — awaiting a human, never approved in this run</span></td></tr>
       </tbody>
     </table>
   </section>

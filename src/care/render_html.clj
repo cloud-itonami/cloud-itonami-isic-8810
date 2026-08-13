@@ -399,7 +399,9 @@
      "Rollout phase gate"
      (str "The same actor, driven by operators at lower rollout phases. "
           (code "care.phase/gate") " can only add caution: it never turns a governor hold into a commit. "
-          "The gate's own reason code is written into the audit fact.")
+          "The first table is the phase declaration read straight out of " (code "care.phase/phases")
+          "; the second is what these operators actually got, with each gate reason read back out of "
+          "the audit fact that run wrote.")
      (str
       (table ["Phase" "Label" "Ops allowed to write" "Ops allowed to auto-commit"]
              (for [p (sort (keys phase/phases))
@@ -423,11 +425,17 @@
                      (code (:subject f))
                      (code (nm (:phase-reason f)))
                      (pill "critical" "HOLD — phase not yet enabled")))
-              (for [r pending]
+              (for [r pending
+                    :let [reason (:reason (last (filter #(= :approval-requested (:t %))
+                                                        (:audit r))))]]
                 (row (esc (:actor r))
                      (code (nm (:op r)))
                      (code (:subject r))
-                     (code ":phase-approval")
+                     ;; read back out of the run's own :approval-requested
+                     ;; audit fact, so this column is measured the same way
+                     ;; the hold rows above it are -- one column, one
+                     ;; provenance.
+                     (if reason (code (nm reason)) (pill "muted" "not recorded"))
                      (pill "warn" "escalate — awaiting a human, never approved in this run")))))))))
 
 (defn- rejection-section [rejects]
