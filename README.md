@@ -150,6 +150,7 @@ proposal still always routes to a human.
 
 ```bash
 clojure -M:dev:run     # walk one clean dual-actuation lifecycle + five HARD-hold cases through the actor
+clojure -M:dev:render-html  # regenerate docs/samples/operator-console.html from a real actor run
 clojure -M:dev:test    # governor contract · phase invariants · store parity · registry conformance · facts coverage
 clojure -M:lint        # clj-kondo (errors fail; CI mirrors this)
 ```
@@ -164,10 +165,21 @@ The governor never dispatches hardware itself; `:high`/`:safety-
 critical` actions (such as operating near elders, care recipients or
 in homes) require human sign-off.
 
-A live sample of the operator console (robotics safety console, shared
-template) is rendered in
+A sample operator console is rendered at build time into
 [docs/samples/operator-console.html](docs/samples/operator-console.html)
--- pure-data HTML output of `kotoba.robotics.ui`.
+by `care.render-html` (`clojure -M:dev:render-html`), which drives the
+REAL actor stack -- `care.operation` -> `care.governor` -> `care.store`
+-- and reads every case id, recipient, caseload figure, dispatch/closure
+reference number, jurisdiction citation and hold reason back out of the
+resulting store and audit ledger. Nothing on the page is hand-written,
+and the build refuses to write it if the run produced no HARD governor
+hold.
+
+Until 2026-08-13 this file held a hand-typed "Robotics Safety --
+Operator Console" from a shared template, listing missions `M1` and a
+robot `robot-1` -- entity ids that appear nowhere in
+`care.store/demo-data`. It was never output of any generator in this
+repo.
 
 ## Open business
 
