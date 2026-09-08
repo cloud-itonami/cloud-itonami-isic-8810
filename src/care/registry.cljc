@@ -29,7 +29,7 @@
   the check-in or closing the case itself (that is `care.operation`'s
   `:actuation/dispatch-checkin`/`:actuation/close-case`, always human-
   gated -- see README `Actuation`)."
-  (:require [clojure.string :as str]))
+  (:require [kotoba.lang.text :as str]))
 
 (defn- unsigned-certificate
   "Every certificate this actor produces is UNSIGNED -- signature is the
@@ -83,7 +83,7 @@
     (throw (ex-info "checkin-dispatch: jurisdiction required" {})))
   (when (< sequence 0)
     (throw (ex-info "checkin-dispatch: sequence must be >= 0" {})))
-  (let [dispatch-number (str (str/upper-case jurisdiction) "-CHK-" (zero-pad sequence 6))
+  (let [dispatch-number (str (str/upper jurisdiction) "-CHK-" (zero-pad sequence 6))
         record {"record_id" dispatch-number
                 "kind" "checkin-dispatch-draft"
                 "case_id" case-id
@@ -107,7 +107,7 @@
     (throw (ex-info "case-closure: jurisdiction required" {})))
   (when (< sequence 0)
     (throw (ex-info "case-closure: sequence must be >= 0" {})))
-  (let [closure-number (str (str/upper-case jurisdiction) "-CLS-" (zero-pad sequence 6))
+  (let [closure-number (str (str/upper jurisdiction) "-CLS-" (zero-pad sequence 6))
         record {"record_id" closure-number
                 "kind" "case-closure-draft"
                 "case_id" case-id
