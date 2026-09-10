@@ -106,7 +106,7 @@ independent layers enforce this (`care.governor`'s `:actuation/
 dispatch-checkin`/`:actuation/close-case` high-stakes gate and `care.
 phase`'s phase table, which never puts `:actuation/dispatch-checkin`/
 `:actuation/close-case` in any phase's `:auto` set) -- see `care.
-phase`'s docstring and `test/care/phase_test.clj`'s `dispatch-checkin-
+phase`'s docstring and `test/care/phase_test.kotoba`'s `dispatch-checkin-
 never-auto-at-any-phase`/`close-case-never-auto-at-any-phase`. The
 actor may draft, check and recommend; a human care-coordinator/
 clinical lead is always the one who actually dispatches a check-in or
@@ -212,14 +212,14 @@ stack only -- no bespoke domain capability lib to reference at all.
 
 | File | Role |
 |---|---|
-| `src/care/store.cljc` | **Store** protocol -- `MemStore` ‖ `DatomicStore` (`langchain.db`) + append-only audit ledger + separate check-in-dispatch/case-closure history. No dynamically-filed sub-record -- both actuation ops act directly on a pre-seeded case, and the double-actuation guards check dedicated `:checkin-dispatched?`/`:case-closed?` booleans rather than a `:status` value |
-| `src/care/registry.cljc` | Check-in-dispatch + case-closure draft records, plus `caregiver-workload-exceeds-maximum?` -- the FIFTH instance of this fleet's MAXIMUM-ceiling check family (`facility`/`school`/`card`/`recovery` established the first four) |
-| `src/care/facts.cljc` | Per-jurisdiction community-care-coordination/adult-safeguarding catalog with an official spec-basis citation per entry, honest coverage reporting |
-| `src/care/careadvisor.cljc` | **CareOps-LLM** -- `mock-advisor` ‖ `llm-advisor`; intake/careplan-verification/safeguarding-screening/check-in-dispatch/case-closure proposals |
-| `src/care/governor.cljc` | **Safeguarding Governor** -- 4 HARD checks (spec-basis · evidence-incomplete · caregiver-workload-exceeds-maximum, pure ground-truth ceiling recompute · safeguarding-signal-unresolved, unconditional evaluation, the THIRTY-FOURTH grounding of this discipline, the SECOND specifically "safeguarding"-shaped one after `congregation`'s matter-level concept) + already-dispatched/already-closed guards + 1 soft (confidence/actuation gate) |
-| `src/care/phase.cljc` | **Phase 0→3** -- read-only → assisted intake → assisted verify → supervised (both check-in dispatch and case closure always human; case intake is the ONLY auto-eligible op, no direct capital risk) |
-| `src/care/operation.cljc` | **OperationActor** -- langgraph-clj StateGraph |
-| `src/care/sim.cljc` | demo driver |
+| `src/care/store.kotoba` | **Store** protocol -- `MemStore` ‖ `DatomicStore` (`langchain.db`) + append-only audit ledger + separate check-in-dispatch/case-closure history. No dynamically-filed sub-record -- both actuation ops act directly on a pre-seeded case, and the double-actuation guards check dedicated `:checkin-dispatched?`/`:case-closed?` booleans rather than a `:status` value |
+| `src/care/registry.kotoba` | Check-in-dispatch + case-closure draft records, plus `caregiver-workload-exceeds-maximum?` -- the FIFTH instance of this fleet's MAXIMUM-ceiling check family (`facility`/`school`/`card`/`recovery` established the first four) |
+| `src/care/facts.kotoba` | Per-jurisdiction community-care-coordination/adult-safeguarding catalog with an official spec-basis citation per entry, honest coverage reporting |
+| `src/care/careadvisor.kotoba` | **CareOps-LLM** -- `mock-advisor` ‖ `llm-advisor`; intake/careplan-verification/safeguarding-screening/check-in-dispatch/case-closure proposals |
+| `src/care/governor.kotoba` | **Safeguarding Governor** -- 4 HARD checks (spec-basis · evidence-incomplete · caregiver-workload-exceeds-maximum, pure ground-truth ceiling recompute · safeguarding-signal-unresolved, unconditional evaluation, the THIRTY-FOURTH grounding of this discipline, the SECOND specifically "safeguarding"-shaped one after `congregation`'s matter-level concept) + already-dispatched/already-closed guards + 1 soft (confidence/actuation gate) |
+| `src/care/phase.kotoba` | **Phase 0→3** -- read-only → assisted intake → assisted verify → supervised (both check-in dispatch and case closure always human; case intake is the ONLY auto-eligible op, no direct capital risk) |
+| `src/care/operation.kotoba` | **OperationActor** -- langgraph-clj StateGraph |
+| `src/care/sim.kotoba` | demo driver |
 | `test/care/*_test.clj` | governor contract · phase invariants · store parity · registry conformance · facts coverage |
 
 ## Business-process coverage (honest)
