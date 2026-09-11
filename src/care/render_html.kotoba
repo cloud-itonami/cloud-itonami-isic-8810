@@ -12,7 +12,7 @@
 
   This namespace drives the REAL actor stack (`care.operation` ->
   `care.governor` -> `care.store`) through a scenario extended from
-  this repo's own `care.sim` demo driver (`clojure -M:dev:run`), and
+  this repo's own `care.sim` demo driver (`kbb -M:dev:run`), and
   renders the resulting store + run audit deterministically. Every
   case id, recipient name, caseload figure, dispatch/closure reference
   number, jurisdiction citation, hold rule and hold detail string on
@@ -34,7 +34,7 @@
   console that shows an actor which never says no is not evidence of a
   governor.
 
-  Usage: `clojure -M:dev:render-html [out-file]`
+  Usage: `kbb -M:dev:render-html [out-file]`
   (default `docs/samples/operator-console.html`)."
   (:require [jp-go-dds.skin]
             [kotoba.lang.text :as str]
@@ -663,7 +663,7 @@
      (ledger-section ledger)
      "</main>\n"
      "<footer>\n"
-     "  <p>Regenerate with <code>clojure -M:dev:render-html</code>. Deterministic: no timestamps, no "
+     "  <p>Regenerate with <code>kbb -M:dev:render-html</code>. Deterministic: no timestamps, no "
      "randomness, byte-identical across reruns against the same seed. The build refuses to write this page "
      "if the run produced no HARD governor hold &mdash; an actor that never says no is not evidence of a "
      "governor.</p>\n"
