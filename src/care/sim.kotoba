@@ -1,5 +1,5 @@
 (ns care.sim
-  "Demo driver -- `clojure -M:dev:run`. Walks a clean case through
+  "Demo driver -- `kbb -M:dev:run`. Walks a clean case through
   intake -> care-plan verification -> safeguarding-signal screening ->
   check-in-dispatch proposal (always escalates) -> human approval ->
   commit, then through case-closure proposal (always escalates) ->

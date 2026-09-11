@@ -149,10 +149,10 @@ proposal still always routes to a human.
 ## Run
 
 ```bash
-clojure -M:dev:run     # walk one clean dual-actuation lifecycle + five HARD-hold cases through the actor
-clojure -M:dev:render-html  # regenerate docs/samples/operator-console.html from a real actor run
-clojure -M:dev:test    # governor contract · phase invariants · store parity · registry conformance · facts coverage
-clojure -M:lint        # clj-kondo (errors fail; CI mirrors this)
+kbb -M:dev:run     # walk one clean dual-actuation lifecycle + five HARD-hold cases through the actor
+kbb -M:dev:render-html  # regenerate docs/samples/operator-console.html from a real actor run
+kbb -M:dev:test    # governor contract · phase invariants · store parity · registry conformance · facts coverage
+kbb -M:lint        # clj-kondo (errors fail; CI mirrors this)
 ```
 
 ## Robotics premise
@@ -167,7 +167,7 @@ in homes) require human sign-off.
 
 A sample operator console is rendered at build time into
 [docs/samples/operator-console.html](docs/samples/operator-console.html)
-by `care.render-html` (`clojure -M:dev:render-html`), which drives the
+by `care.render-html` (`kbb -M:dev:render-html`), which drives the
 REAL actor stack -- `care.operation` -> `care.governor` -> `care.store`
 -- and reads every case id, recipient, caseload figure, dispatch/closure
 reference number, jurisdiction citation and hold reason back out of the
