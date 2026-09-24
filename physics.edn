@@ -1,0 +1,35 @@
+;; What this vertical's robot physically does, declared for
+;; kotoba.robotics.process (kotoba-lang/robotics). `kbb -M:dev:physics` runs it.
+;;
+;; README "Robotics premise": a care-coordination robot performs check-in,
+;; reminders and assistive support for care recipients, including in their
+;; homes (ISIC 8810: social work without accommodation for the elderly and
+;; disabled). Its physical work in the home: fetching an item from a high
+;; kitchen shelf the recipient cannot reach, and crossing the door-threshold
+;; ramps between rooms without tipping.
+;;
+;; Every number without a cited source is marked `estimate` in its :basis.
+;; Replacing an estimate with a sourced value is this bot's growth work.
+{:physics/schema "itonami.physical-ai.spec.v1"
+ :repo "cloud-itonami/cloud-itonami-isic-8810"
+ :cases
+ [{:id :high-shelf-fetch
+   :kind :manipulator
+   :procedure "arm takes a jar or pan down from a high kitchen shelf and sets it on the counter for the care recipient"
+   :params {:l1-m 0.45 :l2-m 0.40 :m1-kg 3.0 :m2-kg 2.0
+            :from [0.30 0.75] :to [0.55 0.10] :duration-s 2.5 :steps 500}
+   :sweep {:param :payload-kg :values [0.5 1.0 2.0 3.0 4.5]}
+   :quantity :peak-tau1-nm
+   :limit {:max 40.0 :basis "estimate: continuous shoulder torque of a 4 kg-class home service arm"}
+   :boundary {:lo 0.1 :hi 20.0}}
+  {:id :threshold-ramp-tipover
+   :kind :transport
+   :procedure "robot with its arm folded over the base drives down a door-threshold ramp into the next room and brakes"
+   :params {:mass-kg 30.0 :payload-kg 5.0 :distance-m 5.0 :v-max-mps 0.5 :a-max-mps2 0.3
+            :brake-decel-mps2 1.0 :drive-force-n 120.0 :crr 0.02
+            :cog-height-m 0.55 :support-half-length-m 0.20
+            :payload-cog-height-m 1.00 :max-time-s 1000.0}
+   :sweep {:param :slope-deg :values [0.0 3.0 5.0 8.0 12.0]}
+   :quantity :min-tipover-margin
+   :limit {:min 0.30 :basis "estimate: keep 30 % of the restoring moment for rugs and uneven thresholds in private homes"}
+   :boundary {:lo 0.0 :hi 25.0}}]}
